@@ -46,7 +46,7 @@ namespace BusLayer
             }).ToList();
         }
 
-        public async void DeleteGiaoDichByID(int id)
+        public async Task<bool> DeleteGiaoDichByID(int id)
         {
             var dao = new DAO();
             var doc = await dao.LoadDatabase();
@@ -54,6 +54,7 @@ namespace BusLayer
             var element = doc.DocumentElement;
             element.RemoveChild(node);
             dao.SaveDatabase(element.OwnerDocument);
+            return true;
         }
     }
 }

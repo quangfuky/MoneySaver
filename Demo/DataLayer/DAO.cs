@@ -21,17 +21,18 @@ namespace DataLayer
                 ProhibitDtd = false,
                 ResolveExternals = true
             };
-
-            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Database");
-            var file = await folder.GetFileAsync("database.xml");
+            var file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("database.xml");
             
-            return await Windows.Data.Xml.Dom.XmlDocument.LoadFromFileAsync(file, loadSettings);
+            return await XmlDocument.LoadFromFileAsync(file, loadSettings);
         }
 
         public async void SaveDatabase(XmlDocument document)
         {
-            var folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Database");
-            var file = await folder.CreateFileAsync("database.xml", Windows.Storage.CreationCollisionOption.ReplaceExisting);
+            const string filename = "database.xml";
+            var file =
+                await
+                    Windows.Storage.ApplicationData.Current.LocalFolder.CreateFileAsync(filename,
+                        Windows.Storage.CreationCollisionOption.OpenIfExists);
             await document.SaveToFileAsync(file);
         }
 

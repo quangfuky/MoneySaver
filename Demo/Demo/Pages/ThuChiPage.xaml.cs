@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -29,11 +30,11 @@ namespace Demo.Pages
             var bus = new BusLoaiGD();
             _idThu = await bus.LoadIDLoaiGD("Thu");
             _idChi = await bus.LoadIDLoaiGD("Chi");
-            LoadGDThu();
-            LoadGDChi();
+            await LoadGDThu();
+            await LoadGDChi();
         }
 
-        private async void LoadGDThu()
+        private async Task<bool> LoadGDThu()
         {
             var business = new BusGiaoDich();
             var listThu = await business.LoadGiaoDichByLoaiGD(_idThu);
@@ -59,17 +60,20 @@ namespace Demo.Pages
                     ThuPanel.Children.Add(giaoDichItem);
                 }
             }
+            return true;
         }
 
-        private void Delete(int ID)
+        private async void Delete(int ID)
         {
             var bus = new BusGiaoDich();
-            bus.DeleteGiaoDichByID(ID);
-            LoadGDChi();
-            LoadGDThu();
+            if (await bus.DeleteGiaoDichByID(ID) == true)
+            {
+                await LoadGDChi();
+                await LoadGDThu();
+            }
         }
 
-        private async void LoadGDChi()
+        private async Task<bool> LoadGDChi()
         {
             var business = new BusGiaoDich();
             var listChi = await business.LoadGiaoDichByLoaiGD(_idChi);
@@ -94,6 +98,7 @@ namespace Demo.Pages
                     ChiPanel.Children.Add(giaoDichItem);
                 }
             }
+            return true;
         }
     }
 }
