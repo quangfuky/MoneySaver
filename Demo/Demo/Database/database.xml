@@ -1,0 +1,19 @@
+<MoneySaver>
+	<ThamSo ID="1" Ten="MaxTaiKhoan" KieuDuLieu="int" GiaTri="5" TinhTrang=""/>
+	<ThamSo ID="2" Ten="MinSoTien" KieuDuLieu="int" GiaTri="500" TinhTrang=""/>
+	<TaiKhoan ID="1" Ten="VanA" Paaword="*****" Diachi="132 Nguyen Hue" Email="vanA@gmail.com" DienThoai="0166832123"/>
+	<TaiKhoan ID="2" Ten="VanC" Password="*****" Diachi="156 Tran Phu" Email="vanC@gmail.com" DienThoai="0125421332"/>
+	<LoaiGD ID="1" Ten="Chi"/>
+	<LoaiGD ID="2" Ten="Thu"/>
+	<LoaiGD ID="3" Ten="Vay"/>
+	<LoaiGD ID="4" Ten="Cho vay"/>
+	<LoaiGD ID="5" Ten="Tiet kiem"/>
+	<GiaoDich ID="1" SoTien="50000" GhiChu="Tien xang" Ngay="2/11/2015" Ten="Tien xang" IDLoai="1"/>
+  <GiaoDich ID="2" Ten="Tien Luong" SoTien="150000" GhiChu="Luong thang 10" Ngay="3/11/2015" IDLoai="2"/>
+	<GiaoDich ID="3" SoTien="30000" GhiChu="" Ngay="2/12/2015" Ten="Tien xe bus" IDLoai="1"/>
+  <GiaoDich ID="4" Ten="Tien Thuong" SoTien="150000" GhiChu="Thuong project MoneySaver" Ngay="3/11/2015" IDLoai="2"/>
+  <GiaoDich ID="5" Ten="Tien Luong" SoTien="1560000" GhiChu="Luong thang 12" Ngay="3/11/2015" IDLoai="2"/>
+  <GiaoDich ID="6" Ten="Tien Tro Cap" SoTien="150000" GhiChu="" Ngay="3/11/2015" IDLoai="2"/>
+  <GiaoDich ID="7" Ten="Hoc bong" SoTien="1500000" GhiChu="Hoc bong sinh vien ngheo vuot kho" Ngay="3/11/2015" IDLoai="2"/>
+  <GiaoDich ID="8" Ten="Hoc bong" SoTien="2000000" GhiChu="Hoc bong khoa hoc" Ngay="3/11/2015" IDLoai="2"/>
+</MoneySaver>

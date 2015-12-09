@@ -1,0 +1,24 @@
+﻿<ContentDialog
+    x:Class="Demo.Pages.AddDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Demo.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Thêm giao dịch mới"
+    PrimaryButtonText="Thêm"
+    SecondaryButtonText="Hủy"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    Loaded="AddDialog_OnLoaded">
+    <ScrollViewer VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto">
+        <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+            <TextBox Name="TxtTenGd" Header="Tên giao dịch" Margin="0,5,0,5"/>
+            <TextBox Name="TxtTien" Header="Số tiền" Margin="0,0,0,5"/>
+            <DatePicker Name="DpNgay" Header="Ngày giao dịch" Margin="0,0,0,5"/>
+            <TextBox Name="TxtGhiChu" Header="Ghi chú" Margin="0,0,0,5"/>
+            <ComboBox Name="BoxLoaiGd" Header="Loại giao dịch" Margin="0,0,0,5"/>
+        </StackPanel>
+    </ScrollViewer>
+</ContentDialog>

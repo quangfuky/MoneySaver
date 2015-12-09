@@ -1,0 +1,21 @@
+<MoneySaver>
+	<ThamSo ID="1" Ten="MaxTaiKhoan" KieuDuLieu="int" GiaTri="5" TinhTrang=""/>
+	<ThamSo ID="2" Ten="MinSoTien" KieuDuLieu="int" GiaTri="500" TinhTrang=""/>
+	<TaiKhoan ID="1" Ten="VanA" Paaword="*****" Diachi="132 Nguyen Hue" Email="vanA@gmail.com" DienThoai="0166832123"/>
+	<TaiKhoan ID="2" Ten="VanC" Password="*****" Diachi="156 Tran Phu" Email="vanC@gmail.com" DienThoai="0125421332"/>
+	<LoaiGD ID="1" Ten="Chi"/>
+	<LoaiGD ID="2" Ten="Thu"/>
+	<LoaiGD ID="3" Ten="Vay"/>
+	<LoaiGD ID="4" Ten="Cho Vay"/>
+	<LoaiGD ID="5" Ten="Tiet Kiem"/>
+	<NhomGD ID="1" Ten="Di chuyen"/>
+	<NhomGD ID="2" Ten="Du lich"/>
+	<NhomGD ID="3" Ten="Gia dinh"/>
+	<NhomGD ID="4" Ten="Giai tri"/>
+	<NhomGD ID="5" Ten="Luong"/>
+	<NhomGD ID="6" Ten="Thuong"/>
+	<NhomGD ID="7" Ten="Tien lai"/>
+	<GiaoDich ID="1" SoTien="50000" GhiChu="Tien xang" Ngay="20/11/2015" NguoiThamGia="Tran Van B" IDNhom="1" IDLoai="1"/>
+	<GiaoDich ID="2" SoTien="150000" GhiChu="Luong thang 10" Ngay="30/11/2015" NguoiThamGia="" IDNhom="5" IDLoai="2"/>
+	<GiaoDich ID="3" SoTien="30000" GhiChu="" Ngay="2/12/2015" NguoiThamGia="" IDNhom="4" IDLoai="1"/>
+</MoneySaver>
