@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Xml.Dom;
+using Windows.Storage;
 using Entity;
 using DataLayer;
 
@@ -11,58 +12,38 @@ namespace BusLayer
 {
     public class Bus
     {
-        //private readonly SoThuChi _soThuChi = new SoThuChi();
-        //public List<GiaoDich> GetListThu()
-        //{
-        //    return new List<GiaoDich>()
-        //    {
-        //        new GiaoDich() {Ten = "Lương", SoTien = 500000, GhiChu = "", Ngay = DateTime.Today},
-        //        new GiaoDich() {Ten = "Thưởng", SoTien = 500000, GhiChu = "", Ngay = DateTime.Today},
-        //        new GiaoDich() {Ten = "Abc", SoTien = 500000, GhiChu = "", Ngay = DateTime.Today}
-        //    };
-        //}
+        public async void ComposeEmail(Windows.ApplicationModel.Contacts.Contact recipient,
+        string emailAddress, StorageFile attachmentFile)
+        {
+            var emailMessage = new Windows.ApplicationModel.Email.EmailMessage();
+            emailMessage.Body = "";
+            emailMessage.Subject = "[Feedback]";
+            if (attachmentFile != null)
+            {
+                var stream = Windows.Storage.Streams.RandomAccessStreamReference.CreateFromFile(attachmentFile);
 
-        //public List<GiaoDich> GetListChi()
-        //{
-        //    return new List<GiaoDich>()
-        //    {
-        //        new GiaoDich() { Ten = "Xăng", SoTien = 500000, GhiChu = "", Ngay = DateTime.Today},
-        //        new GiaoDich() { Ten = "Xe bus", SoTien = 500000, GhiChu = "", Ngay = DateTime.Today},
-        //        new GiaoDich() { Ten = "Đi Nha Trang", SoTien = 500000, GhiChu = "", Ngay = DateTime.Today},
-        //        new GiaoDich() { Ten = "Cơm trưa", SoTien = 30000, GhiChu = "", Ngay = DateTime.Today},
-        //            NguoiThamGia = "", NhomGd = new NhomGD() { TenNhom = "Ăn uống"} }
-        //    };
-        //}
+                var attachment = new Windows.ApplicationModel.Email.EmailAttachment(
+                    attachmentFile.Name,
+                    stream);
 
-        //public bool AddGiaoDich(LoaiGD loaiGd, GiaoDich giaoDich)
-        //{
-        //    switch (loaiGd)
-        //    {
-        //        case LoaiGD.Thu:
-        //            _soThuChi.AddGiaoDichThu(giaoDich);
-        //            break;
-        //        case LoaiGD.Chi:
-        //            _soThuChi.AddGiaoDichChi(giaoDich);
-        //            break;
-        //        case LoaiGD.Vay:
-        //            break;
-        //        case LoaiGD.ChoVay:
-        //            break;
-        //        case LoaiGD.TietKiem:
-        //            break;
-        //        default:
-        //            throw new ArgumentOutOfRangeException(nameof(loaiGd), loaiGd, null);
-        //    }
-        //    return true;
-        //}
+                emailMessage.Attachments.Add(attachment);
+            }
 
-        //public async Task<List<NhomGD>> GetListNhomGd()
-        //{
-            
-        //    return new List<NhomGD>()
-        //    {
-        //        new NhomGD() {TenNhom = "Di chuyển"}, new NhomGD() {TenNhom = "Giải trí"}, new NhomGD() {TenNhom = "Ăn uống"}, new NhomGD() {TenNhom = "Shopping"}
-        //    };
-        //}
+            var email = recipient.Emails.FirstOrDefault<Windows.ApplicationModel.Contacts.ContactEmail>();
+            if (email != null)
+            {
+                var emailRecipient = new Windows.ApplicationModel.Email.EmailRecipient(email.Address);
+                emailMessage.To.Add(emailRecipient);
+            }
+            else
+            {
+                var emailRecipient = new Windows.ApplicationModel.Email.EmailRecipient(emailAddress);
+                emailMessage.To.Add(emailRecipient);
+
+            }
+
+            await Windows.ApplicationModel.Email.EmailManager.ShowComposeNewEmailAsync(emailMessage);
+
+        }
     }
 }

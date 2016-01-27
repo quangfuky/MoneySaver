@@ -14,7 +14,7 @@ namespace BusLayer
         public async Task<GiaoDich> LoadGiaoDichById(int id)
         {
             var dao = new DAO();
-            var node = await dao.GetSingleNode("GiaoDich[@ID=" + id + "]");
+            var node = await dao.GetSingleNode("//GiaoDich[@ID=" + id + "]");
             if (node != null)
             {
                 var giaoDich = new GiaoDich()
@@ -53,7 +53,44 @@ namespace BusLayer
             var node = doc.SelectSingleNode("//GiaoDich[@ID=" + id + "]");
             var element = doc.DocumentElement;
             element.RemoveChild(node);
-            dao.SaveDatabase(element.OwnerDocument);
+            await dao.SaveDatabase(element.OwnerDocument);
+            return true;
+        }
+
+        public async Task<bool> AddNewGiaoDich(GiaoDich giaoDich)
+        {
+            var dao = new DAO();
+            var listID = await dao.GetNodeList("//GiaoDich");
+            var maxID =
+                listID.Select(item => int.Parse(item.Attributes.GetNamedItem("ID").NodeValue.ToString()))
+                    .Concat(new[] {0})
+                    .Max();
+            var doc = await dao.LoadDatabase();
+            var newNode = doc.CreateElement("GiaoDich");
+            newNode.SetAttribute("ID", (maxID + 1).ToString());
+            newNode.SetAttribute("Ten",giaoDich.Ten);
+            newNode.SetAttribute("SoTien", giaoDich.SoTien.ToString());
+            newNode.SetAttribute("GhiChu", giaoDich.GhiChu);
+            newNode.SetAttribute("Ngay",
+                string.Format("{0}/{1}/{2}", giaoDich.Ngay.Month, giaoDich.Ngay.Day, giaoDich.Ngay.Year));
+            newNode.SetAttribute("IDLoai", giaoDich.LoaiGD.ToString());
+            doc.DocumentElement.AppendChild(newNode);
+            await dao.SaveDatabase(doc);
+            return true;
+        }
+
+        public async Task<bool> EditGiaoDich(GiaoDich giaoDich)
+        {
+            var dao = new DAO();
+            var doc = await dao.LoadDatabase();
+            var node = doc.SelectSingleNode("//GiaoDich[@ID=" + giaoDich.ID + "]");
+            node.Attributes.GetNamedItem("Ten").NodeValue = giaoDich.Ten;
+            node.Attributes.GetNamedItem("SoTien").NodeValue = giaoDich.SoTien.ToString();
+            node.Attributes.GetNamedItem("GhiChu").NodeValue = giaoDich.GhiChu;
+            node.Attributes.GetNamedItem("Ngay").NodeValue = string.Format("{0}/{1}/{2}", giaoDich.Ngay.Month,
+                giaoDich.Ngay.Day, giaoDich.Ngay.Year);
+            var element = doc.DocumentElement;
+            await dao.SaveDatabase(element.OwnerDocument);
             return true;
         }
     }

@@ -1,0 +1,9 @@
+<MoneySaver>
+	<ThamSo ID="1" Ten="MaxTaiKhoan" KieuDuLieu="int" GiaTri="5" TinhTrang=""/>
+	<ThamSo ID="2" Ten="MinSoTien" KieuDuLieu="int" GiaTri="500" TinhTrang=""/>
+	<LoaiGD ID="1" Ten="Chi"/>
+	<LoaiGD ID="2" Ten="Thu"/>
+	<LoaiGD ID="3" Ten="Vay"/>
+	<LoaiGD ID="4" Ten="Cho vay"/>
+	<LoaiGD ID="5" Ten="Tiet kiem"/>
+</MoneySaver>

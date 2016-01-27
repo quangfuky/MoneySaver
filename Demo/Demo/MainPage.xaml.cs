@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Background;
+using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using BusLayer;
 using Demo.Pages;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -35,6 +29,16 @@ namespace Demo
         public MainPage()
         {
             this.InitializeComponent();
+            //RegisterBackgroundTask();
+        }
+
+        async void RegisterBackgroundTask()
+        {
+
+            await (BackgroundTaskConfig.RegisterBackgroundTask(BackgroundTaskConfig.SampleBackgroundTaskEntryPoint,
+                                                                   BackgroundTaskConfig.SampleBackgroundTaskName,
+                                                                    new SystemTrigger(SystemTriggerType.TimeZoneChange, false),
+                                                                   null));
         }
 
 
@@ -77,23 +81,22 @@ namespace Demo
             var result = await addDialog.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
+                await Task.Delay(millisecondsDelay: 500);
                 var s = ScenarioControl?.SelectedItem as Scenario;
                 if (s == null) return;
                 ScenarioFrame.Navigate(s.ClassType);
             }
         }
-    }
-    //public class ScenarioBindingConverter : IValueConverter
-    //{
-    //    public object Convert(object value, Type targetType, object parameter, string language)
-    //    {
-    //        Scenario s = value as Scenario;
-    //        return (MainPage.Current.Scenarios.IndexOf(s) + 1) + ") " + s.Title;
-    //    }
 
-    //    public object ConvertBack(object value, Type targetType, object parameter, string language)
-    //    {
-    //        return true;
-    //    }
-    //}
+        private void BtnFeedback_OnClick(object sender, RoutedEventArgs e)
+        {
+            var bus = new Bus();
+            bus.ComposeEmail(new Contact(), "MoneySaverTeam@gmail.com", null);
+        }
+
+        private void BtnInfo_OnClick(object sender, RoutedEventArgs e)
+        {
+            ScenarioFrame.Navigate(typeof(InfoPage));
+        }
+    }
 }

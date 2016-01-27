@@ -5,13 +5,12 @@
     xmlns:local="using:Demo"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:charting="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
-    xmlns:Series="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
-    xmlns:datavis="using:WinRTXamlToolkit.Controls.DataVisualization"
+    xmlns:series="using:WinRTXamlToolkit.Controls.DataVisualization.Charting"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Loaded="HomePage_OnLoaded"
     mc:Ignorable="d">
 
-    <Grid Background="#FFE8E8E8">
+    <Grid Background="#16193B">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="VisualStateGroup">
                 <VisualState x:Name="pc">
@@ -40,9 +39,15 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <StackPanel Margin="0,0,0,10">
-                <TextBlock Text="Chào mừng bạn đến với MoneySaver" Style="{StaticResource SampleHeaderTextStyle}" TextWrapping="Wrap"/>
+                <RelativePanel>
+                    <TextBlock x:Name="LbTotal" Text="Tổng tiền: " Style="{StaticResource SampleHeaderTextStyle}" TextWrapping="Wrap"/>
+                    <TextBlock x:Name="TxtTotalMoney" Text="20000" Style="{StaticResource SampleHeaderTextStyle}" TextWrapping="Wrap"
+                               RelativePanel.RightOf="LbTotal" Margin="10,0,0,0"/>
+                    <TextBlock Text="VNĐ" Style="{StaticResource SampleHeaderTextStyle}" TextWrapping="Wrap"
+                               RelativePanel.RightOf="TxtTotalMoney" Margin="5,0,0,0"/>
+                </RelativePanel>
                 <TextBlock Style="{StaticResource ScenarioDescriptionTextStyle}" TextWrapping="Wrap">
-                    Tiết kiệm tiền cho bạn
+                	<Run Text="Tiết kiệm tiền cho bạn"/>
                 </TextBlock>
             </StackPanel>
 
@@ -52,51 +57,68 @@
                         <ColumnDefinition Width="*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <charting:Chart Name="piechart" Title="PieChart">
+                    <charting:Chart Name="ThongKeTheoLoai" Title="Thống kê theo loại giao dịch">
                         <charting:Chart.Series>
-                            <Series:PieSeries
+                            <series:PieSeries
                             Title="Population"
                             ItemsSource="{Binding Items}"
                             IndependentValueBinding="{Binding Name}"
                             DependentValueBinding="{Binding Value}"
-                            IsSelectionEnabled="True" />
+                            IsSelectionEnabled="False"/>
                         </charting:Chart.Series>
                     </charting:Chart>
-                    <charting:Chart Name="piechart2" Title="PieChart" Grid.Column="1">
-                        <charting:Chart.Series>
-                            <Series:PieSeries
-                            Title="Population"
-                            ItemsSource="{Binding Items}"
+                    <charting:Chart 
+                        x:Name="ThongKeTheoThang"
+                        Title="Thống kê theo từng tháng"
+                        Grid.Column="1">
+                        <charting:LineSeries x:Name="LineThu"
+                            Title="Thu"
                             IndependentValueBinding="{Binding Name}"
                             DependentValueBinding="{Binding Value}"
                             IsSelectionEnabled="True" />
-                        </charting:Chart.Series>
+                        <charting:LineSeries x:Name="LineChi"
+                            Title="Chi"
+                            IndependentValueBinding="{Binding Name}"
+                            DependentValueBinding="{Binding Value}"
+                            IsSelectionEnabled="True" />
+                        <charting:LineSeries x:Name="LineTongTien"
+                            Title="Tổng tiền"
+                            IndependentValueBinding="{Binding Name}"
+                            DependentValueBinding="{Binding Value}"
+                            IsSelectionEnabled="True" />
                     </charting:Chart>
                 </Grid>
             </ScrollViewer>
             <Pivot x:Name="pivot" Grid.Row="1" Visibility="Collapsed">
-                <PivotItem Header="Thu Chi">
-                    <charting:Chart Name="piechart3" Title="PieChart">
+                <PivotItem Header="Thống kê theo loại giao dịch">
+                    <charting:Chart Name="ThongKeTheoLoaiMobile">
                         <charting:Chart.Series>
-                            <Series:PieSeries
+                            <series:PieSeries
                             Title="Population"
                             ItemsSource="{Binding Items}"
                             IndependentValueBinding="{Binding Name}"
                             DependentValueBinding="{Binding Value}"
-                            IsSelectionEnabled="True" />
+                            IsSelectionEnabled="False" />
                         </charting:Chart.Series>
                     </charting:Chart>
                 </PivotItem>
-                <PivotItem Header="So Sanh">
-                    <charting:Chart Name="piechart4" Title="PieChart">
-                        <charting:Chart.Series>
-                            <Series:PieSeries
-                            Title="Population"
-                            ItemsSource="{Binding Items}"
+                <PivotItem Header="Thống kê theo từng tháng">
+                    <charting:Chart>
+                        <charting:LineSeries x:Name="LineThuMobile"
+                            Title="Thu"
                             IndependentValueBinding="{Binding Name}"
                             DependentValueBinding="{Binding Value}"
                             IsSelectionEnabled="True" />
-                        </charting:Chart.Series>
+                        <charting:LineSeries x:Name="LineChiMobile"
+                            Title="Chi"
+                            IndependentValueBinding="{Binding Name}"
+                            DependentValueBinding="{Binding Value}"
+                            IsSelectionEnabled="True" />
+                        <charting:LineSeries x:Name="LineTongTienMobile"
+                            Title="Tổng tiền"
+                            IndependentValueBinding="{Binding Name}"
+                            DependentValueBinding="{Binding Value}"
+                            IsSelectionEnabled="True" />
                     </charting:Chart>
                 </PivotItem>
             </Pivot>

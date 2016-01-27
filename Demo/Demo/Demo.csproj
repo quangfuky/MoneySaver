@@ -93,9 +93,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Database\database.xml">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Database\readonly_database.xml" />
     <Content Include="Resources\btnBanknotes.png" />
     <Content Include="Resources\btnBusiness.png" />
     <Content Include="Resources\btnCalendar.png" />
@@ -103,20 +101,28 @@
     <Content Include="Resources\btnNo.png" />
     <Content Include="Resources\btnThuChi.png" />
     <Content Include="Resources\btnTietKiem.png" />
+    <Content Include="Resources\icoMoneyBag.png" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BackgroundTaskConfig.cs" />
     <Compile Include="Pages\AddDialog.xaml.cs">
       <DependentUpon>AddDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\EditDialog.xaml.cs">
+      <DependentUpon>EditDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\InfoPage.xaml.cs">
+      <DependentUpon>InfoPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\NoPage.xaml.cs">
       <DependentUpon>NoPage.xaml</DependentUpon>
@@ -158,6 +164,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\EditDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -165,6 +175,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\InfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\NoPage.xaml">
       <SubType>Designer</SubType>
@@ -188,6 +202,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BackgroudTask\BackgroudTask.csproj">
+      <Project>{824586a9-be86-4dea-ad91-483d9f14be83}</Project>
+      <Name>BackgroudTask</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BusLayer\BusLayer.csproj">
       <Project>{d2f0e8f8-a62d-4d6d-b96f-ae6754bd0654}</Project>
       <Name>BusLayer</Name>

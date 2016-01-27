@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using BusLayer;
 using Demo.Control;
 
@@ -39,16 +30,31 @@ namespace Demo.Pages
             var bus = new BusLoaiGD();
             _idVay = await bus.LoadIDLoaiGD("Vay");
             _idChoVay = await bus.LoadIDLoaiGD("Cho vay");
-            LoadGDVay();
-            LoadGDChoVay();
+            try
+            {
+                await LoadGDChoVay();
+            } catch (UnauthorizedAccessException)
+            {
+                await Task.Delay(millisecondsDelay: 500);
+                await LoadGDChoVay();
+            }
+            try
+            {
+                await LoadGDVay();
+            } catch (UnauthorizedAccessException)
+            {
+                await Task.Delay(millisecondsDelay: 500);
+                await LoadGDVay();
+            }
         }
 
-        private async void LoadGDVay()
+        private async Task<bool> LoadGDVay()
         {
             var business = new BusGiaoDich();
             var listVay = await business.LoadGiaoDichByLoaiGD(_idVay);
             if (listVay.Count == 0)
             {
+                VayPanel.Children.Clear();
                 var status = new TextBlock()
                 {
                     FontSize = 30,
@@ -65,17 +71,20 @@ namespace Demo.Pages
                 foreach (var giaoDich in listVay)
                 {
                     var giaoDichItem = new ViewData(giaoDich) { Margin = new Thickness(10) };
+                    giaoDichItem.Delete += Delete;
                     VayPanel.Children.Add(giaoDichItem);
                 }
             }
+            return true;
         }
 
-        private async void LoadGDChoVay()
+        private async Task<bool> LoadGDChoVay()
         {
             var business = new BusGiaoDich();
             var listChoVay = await business.LoadGiaoDichByLoaiGD(_idChoVay);
             if (listChoVay.Count == 0)
             {
+                ChoVayPanel.Children.Clear();
                 var status = new TextBlock()
                 {
                     FontSize = 30,
@@ -92,7 +101,34 @@ namespace Demo.Pages
                 foreach (var giaoDich in listChoVay)
                 {
                     var giaoDichItem = new ViewData(giaoDich) { Margin = new Thickness(10) };
+                    giaoDichItem.Delete += Delete;
                     ChoVayPanel.Children.Add(giaoDichItem);
+                }
+            }
+            return true;
+        }
+        private async void Delete(int ID)
+        {
+            var bus = new BusGiaoDich();
+            if (await bus.DeleteGiaoDichByID(ID) == true)
+            {
+                try
+                {
+                    await LoadGDChoVay();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    await Task.Delay(millisecondsDelay: 500);
+                    await LoadGDChoVay();
+                }
+                try
+                {
+                    await LoadGDVay();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    await Task.Delay(millisecondsDelay: 500);
+                    await LoadGDVay();
                 }
             }
         }

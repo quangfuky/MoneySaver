@@ -30,8 +30,24 @@ namespace Demo.Pages
             var bus = new BusLoaiGD();
             _idThu = await bus.LoadIDLoaiGD("Thu");
             _idChi = await bus.LoadIDLoaiGD("Chi");
-            await LoadGDThu();
-            await LoadGDChi();
+            try
+            {
+                await LoadGDChi();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await Task.Delay(millisecondsDelay: 500);
+                await LoadGDChi();
+            }
+            try
+            {
+                await LoadGDThu();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await Task.Delay(millisecondsDelay: 500);
+                await LoadGDThu();
+            }
         }
 
         private async Task<bool> LoadGDThu()
@@ -40,6 +56,7 @@ namespace Demo.Pages
             var listThu = await business.LoadGiaoDichByLoaiGD(_idThu);
             if (listThu.Count == 0)
             {
+                ThuPanel.Children.Clear();
                 var status = new TextBlock()
                 {
                     FontSize = 30,
@@ -56,7 +73,7 @@ namespace Demo.Pages
                 foreach (var giaoDich in listThu)
                 {
                     var giaoDichItem = new ViewData(giaoDich);
-                    giaoDichItem.delete += Delete;
+                    giaoDichItem.Delete += Delete;
                     ThuPanel.Children.Add(giaoDichItem);
                 }
             }
@@ -68,8 +85,22 @@ namespace Demo.Pages
             var bus = new BusGiaoDich();
             if (await bus.DeleteGiaoDichByID(ID) == true)
             {
-                await LoadGDChi();
-                await LoadGDThu();
+                try
+                {
+                    await LoadGDChi();
+                } catch (UnauthorizedAccessException)
+                {
+                    await Task.Delay(millisecondsDelay: 500);
+                    await LoadGDChi();
+                }
+                try
+                {
+                    await LoadGDThu();
+                } catch (UnauthorizedAccessException)
+                {
+                    await Task.Delay(millisecondsDelay: 500);
+                    await LoadGDThu();
+                }
             }
         }
 
@@ -79,6 +110,7 @@ namespace Demo.Pages
             var listChi = await business.LoadGiaoDichByLoaiGD(_idChi);
             if (listChi.Count == 0)
             {
+                ChiPanel.Children.Clear();
                 var status = new TextBlock()
                 {
                     FontSize = 30,
@@ -95,6 +127,7 @@ namespace Demo.Pages
                 foreach (var giaoDich in listChi)
                 {
                     var giaoDichItem = new ViewData(giaoDich);
+                    giaoDichItem.Delete += Delete;
                     ChiPanel.Children.Add(giaoDichItem);
                 }
             }

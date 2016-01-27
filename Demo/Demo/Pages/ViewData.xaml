@@ -14,7 +14,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>-->
-    <Grid MaxWidth="250" MaxHeight="300" Background="#FF80D8FF" CornerRadius="2" BorderThickness="0,0,2,2" BorderBrush="#FF6CD0FD" Margin="5">
+    <Grid x:Name="Panel" MaxWidth="250" MaxHeight="300" Background="Crimson" CornerRadius="2" BorderThickness="0,0,2,2" BorderBrush="#FF6CD0FD" Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -27,7 +27,7 @@
                 <RowDefinition Height="*" MaxHeight="50" MinHeight="35"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
-                <TextBlock Name="TieuDe" FontSize="24" Text="Ten giao dich" Margin="15,10,10,10" Foreground="Black" FontFamily="Segoe UI Light"/>
+                <TextBlock Name="TieuDe" FontSize="24" TextWrapping="Wrap" Text="Ten giao dich" Margin="15,10,10,10" FontFamily="Segoe UI Light"/>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
@@ -35,7 +35,7 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="/Resources/btnBanknotes.png" Margin="20,5,5,5"></Image>
-                <TextBlock Grid.Column="1" Name="SoTien" Text="1.000.000" FontSize="17.333" Margin="10" Foreground="#FF4E3733"/>
+                <TextBlock Grid.Column="1" Name="SoTien" Text="1.000.000" FontSize="17.333" Margin="10"/>
             </Grid>
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -44,7 +44,7 @@
                     <ColumnDefinition Width="193*"/>
                 </Grid.ColumnDefinitions>
                 <Image Source="/Resources/btnCalendar.png" Margin="20,5,5,5"/>
-                <TextBlock Grid.Column="1" Name="Ngay" Text="10/2/2015" FontSize="17.333" Margin="10" Grid.ColumnSpan="2" Foreground="#FF4E3733" />
+                <TextBlock Grid.Column="1" Name="Ngay" Text="10/2/2015" FontSize="17.333" Margin="10" Grid.ColumnSpan="2"/>
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
@@ -54,15 +54,14 @@
                 </Grid.ColumnDefinitions>
                 <Image Source="/Resources/btnBusiness.png" Margin="20,5,5,5"/>
                 <TextBlock Grid.Column="1" Name="GhiChu" TextWrapping="Wrap" Text="Ghi chu" FontSize="15" Margin="15,0,15,0"  
-                           Width="150" VerticalAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2" Foreground="#FF4E3733"/>
+                           Width="150" VerticalAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" Grid.ColumnSpan="2"/>
             </Grid>
         </Grid>
 
         <Border Height="48" Grid.Row="1" MinWidth="248">
             <CommandBar Name="commandBar" Background="Transparent" Visibility="Collapsed">
-                <AppBarButton Icon="ViewAll"></AppBarButton>
-                <AppBarButton Icon="delete" Click="AppBarButton_Click" ></AppBarButton>
-                <AppBarButton Icon="Accept" ></AppBarButton>
+                <AppBarButton Label="Edit"  Icon="Edit" Click="EditButton_OnClick"/>
+                <AppBarButton Label="Delete" Icon="Delete" Click="AppBarButton_Click"/>
             </CommandBar>
         </Border>
     </Grid>

@@ -11,14 +11,14 @@ namespace BusLayer
         public async Task<int> LoadIDLoaiGD(string name)
         {
             var dao = new DAO();
-            var node = await dao.GetSingleNode("//LoaiGD[@Ten='" + name + "']");
+            var node = await dao.GetSingleNode("//LoaiGD[@Ten='" + name + "']", true);
             return int.Parse(node?.Attributes.GetNamedItem("ID").NodeValue.ToString());
         }
 
         public async Task<List<LoaiGD>> LoadLoaiGD()
         {
             var dao = new DAO();
-            var nodeList = await dao.GetNodeList("//LoaiGD");
+            var nodeList = await dao.GetNodeList("//LoaiGD", true);
             return nodeList.Select(xmlNode => new LoaiGD
             {
                 ID = int.Parse(xmlNode.Attributes.GetNamedItem("ID").NodeValue.ToString()),

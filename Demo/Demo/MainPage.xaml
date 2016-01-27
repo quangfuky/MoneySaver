@@ -44,7 +44,7 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        <RelativePanel x:Name="HeaderPanel" Grid.Row="0" Background="#FF32C24D">
+        <RelativePanel x:Name="HeaderPanel" Grid.Row="0" Background="Crimson">
             <Border x:Name="Hamberger" HorizontalAlignment="Left"
                     RelativePanel.AlignVerticalCenterWithPanel="True">
                 <ToggleButton x:Name="HambergerButton" Style="{StaticResource SymbolButton}" Width="48"
@@ -70,7 +70,7 @@
             </Button>
         </RelativePanel>
         <!--=========================== SplitView============================= -->
-        <SplitView x:Name="SplitView" IsPaneOpen="False" Grid.Row="1" DisplayMode="CompactInline" PaneClosing="SplitView_OnPaneClosing" PaneBackground="White" Background="#FFE8E8E8">
+        <SplitView x:Name="SplitView" IsPaneOpen="False" Grid.Row="1" DisplayMode="CompactInline" PaneClosing="SplitView_OnPaneClosing" PaneBackground="#FF002D4F" Background="#FF142535">
             <SplitView.Pane>
                 <RelativePanel>
                     <ListBox x:Name="ScenarioControl" SelectionChanged="ScenarioControl_OnSelectionChanged" SelectionMode="Single"
@@ -79,17 +79,13 @@
 
                     <!--=======================Secondary button group ========================= -->
                     <StackPanel x:Name="SecondaryButtonGroup" RelativePanel.AlignBottomWithPanel="True">
-                        <ToggleButton x:Name="BtnAccount" Style="{StaticResource SymbolButton}" Width="48"
+                        <ToggleButton x:Name="BtnInfo" Style="{StaticResource SymbolButton}" Width="48" Click="BtnInfo_OnClick"
                             Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="0,0,0,15">
-                            <SymbolIcon Symbol="Account"/>
+                            <SymbolIcon Symbol="ContactInfo"/>
                         </ToggleButton>
-                        <ToggleButton x:Name="BtnSetting" Style="{StaticResource SymbolButton}" Width="48"
+                        <ToggleButton x:Name="BtnFeedback" Style="{StaticResource SymbolButton}" Width="48" Click="BtnFeedback_OnClick"
                             Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="0,0,0,15">
-                            <SymbolIcon Symbol="Setting"/>
-                        </ToggleButton>
-                        <ToggleButton x:Name="BtnFeedback" Style="{StaticResource SymbolButton}" Width="48"
-                            Foreground="{ThemeResource ApplicationForegroundThemeBrush}" Margin="0,0,0,15">
-                            <SymbolIcon Symbol="Emoji2"/>
+                            <SymbolIcon x:Name="BtnContact" Symbol="Emoji2"/>
                         </ToggleButton>
                     </StackPanel>
                 </RelativePanel>
@@ -103,7 +99,7 @@
                 <!--==================================AppBar==============================-->
                 <StackPanel x:Name="AppBar" Orientation="Vertical" RelativePanel.AlignBottomWithPanel="True" 
                             RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True">
-                    <CommandBar x:Name="CommandBar" Background="#FFE8E8E8" IsOpen="False">
+                    <CommandBar x:Name="CommandBar" IsOpen="False">
                         <CommandBar.SecondaryCommands>
                             <AppBarButton Icon="Setting" Label="Settings"/>
                         </CommandBar.SecondaryCommands>

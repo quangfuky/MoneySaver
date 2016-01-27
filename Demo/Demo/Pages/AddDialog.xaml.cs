@@ -1,18 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.ServiceModel.Channels;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using BusLayer;
 using Entity;
 // The Content Dialog item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -26,20 +15,33 @@ namespace Demo.Pages
             this.InitializeComponent();
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            var bus = new Bus();
-            var temp = 0;
+            var bus = new BusGiaoDich();
+            if (TxtTien.Text == "")
+            {
+                TxtTien.Header = "Bạn vui lòng nhập số tiền:";
+                return;
+            }
+            int soTien;
+            var check = int.TryParse(TxtTien.Text, out soTien);
+            if (check == false)
+            {
+                TxtTien.Header = "Bạn vui lòng nhập lại số tiền (Nhập bằng số):";
+                return;
+            }
 
-            var giaoDich = new GiaoDich()
+            await bus.AddNewGiaoDich( new GiaoDich()
             {
                 Ten = TxtTenGd.Text,
-                SoTien = int.Parse(TxtTien.Text),
                 GhiChu = TxtGhiChu.Text,
-                Ngay = DateTime.Parse(DpNgay.Date.ToString()),
-              
-            };
-
+                SoTien = int.Parse(TxtTien.Text),
+                Ngay = Convert.ToDateTime(DpNgay.Date.ToString()),
+                LoaiGD = int.Parse(BoxLoaiGd.SelectedValue.ToString())
+            });
+            var busNoti = new BusNotification();
+            await busNoti.ThongBaoWarning();
+            return;
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -52,6 +54,8 @@ namespace Demo.Pages
             var listLoaiGD = await bus.LoadLoaiGD();
             BoxLoaiGd.ItemsSource = listLoaiGD;
             BoxLoaiGd.DisplayMemberPath = "Ten";
+            BoxLoaiGd.SelectedValuePath = "ID";
+            BoxLoaiGd.SelectedIndex = 0;
         }
     }
 }

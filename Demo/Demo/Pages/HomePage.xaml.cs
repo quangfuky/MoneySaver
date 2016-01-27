@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using WinRTXamlToolkit.Controls.DataVisualization.Charting;
+using BusLayer;
+using Entity;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -36,7 +30,7 @@ namespace Demo
             public int Value { get; set; }
         }
 
-        private void HomePage_OnLoaded(object sender, RoutedEventArgs e)
+        private async void HomePage_OnLoaded(object sender, RoutedEventArgs e)
         {
             List<NameValueItem> items = new List<NameValueItem>();
             Random _random = new Random();
@@ -44,10 +38,50 @@ namespace Demo
             {
                 items.Add(new NameValueItem { Name = "Test" + i, Value = _random.Next(10, 100) });
             }
-            ((PieSeries)this.piechart.Series[0]).ItemsSource = items;
-            ((PieSeries)this.piechart2.Series[0]).ItemsSource = items;
-            ((PieSeries)this.piechart3.Series[0]).ItemsSource = items;
-            ((PieSeries)this.piechart4.Series[0]).ItemsSource = items;
+            var bus = new BusThongKe();
+            var busLoaiGd = new BusLoaiGD();
+            List<ThongKe> listThongKeLoaiGd;
+            List<ThongKe> listThongKeThu;
+            List<ThongKe> listThongKeChi;
+            List<ThongKe> listTongTien;
+            try
+            {
+                listThongKeLoaiGd = await bus.ThongKeTheoLoaiGD();
+                TxtTotalMoney.Text = (await bus.TinhTongTienTrongTaiKhoan()).ToString();
+                listThongKeThu = await bus.TongTienTheoThangVaLoaiGD("Thu");
+                listThongKeChi = await bus.TongTienTheoThangVaLoaiGD("Chi");
+                listTongTien = await bus.TongTienTheoThang();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await Task.Delay(millisecondsDelay: 500);
+                listThongKeLoaiGd = await bus.ThongKeTheoLoaiGD();
+                TxtTotalMoney.Text = (await bus.TinhTongTienTrongTaiKhoan()).ToString();
+                listThongKeThu = await bus.TongTienTheoThangVaLoaiGD("Thu");
+                listThongKeChi = await bus.TongTienTheoThangVaLoaiGD("Chi");
+                listTongTien = await bus.TongTienTheoThang();
+            }
+   
+            
+            ((PieSeries)this.ThongKeTheoLoai.Series[0]).ItemsSource = ConvertThongKeListToItems(listThongKeLoaiGd);
+            LineThu.ItemsSource = ConvertThongKeListToItems(listThongKeThu);
+            LineChi.ItemsSource = ConvertThongKeListToItems(listThongKeChi);
+            LineTongTien.ItemsSource = ConvertThongKeListToItems(listTongTien);
+
+            //On mobile
+            ((PieSeries)this.ThongKeTheoLoaiMobile.Series[0]).ItemsSource = ConvertThongKeListToItems(listThongKeLoaiGd);
+            LineThuMobile.ItemsSource = ConvertThongKeListToItems(listThongKeThu);
+            LineChiMobile.ItemsSource = ConvertThongKeListToItems(listThongKeChi);
+            LineTongTienMobile.ItemsSource = ConvertThongKeListToItems(listTongTien);
         }
+
+        public List<NameValueItem> ConvertThongKeListToItems(List<ThongKe> listThongKe)
+        {
+            return listThongKe.Select(thongKe => new NameValueItem()
+            {
+                Name = thongKe.Ten,
+                Value = thongKe.GiaTri
+            }).ToList();
+        } 
     }
 }
